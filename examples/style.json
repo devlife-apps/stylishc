@@ -1,0 +1,12 @@
+{
+    "avatarPadding": 20,
+    "avatarSize": 80,
+    "canvasWidth": 800,
+    "avatarRadius": 0,
+    "strokeColor": [
+        "#f00",
+        "#0f0",
+        "#00f"
+    ],
+    "strokeWidth": 4
+}

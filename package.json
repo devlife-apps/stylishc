@@ -1,0 +1,23 @@
+{
+  "name": "contributors-image-generator",
+  "version": "1.0.0",
+  "description": "An image generator for open source contributions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "run": "node ./index.js"
+  },
+  "author": "Javier Romero <root@jromero.codes>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@octokit/rest": "^17.1.2",
+    "axios": "^0.19.2",
+    "github-url-from-git": "^1.5.0",
+    "parse-repo": "^1.0.4",
+    "sharp": "^0.25.2",
+    "yargs": "^15.3.1"
+  },
+  "bin": {
+    "contrib-gen": "./index.js"
+  }
+}
