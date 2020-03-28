@@ -1,10 +1,10 @@
-# stylishc
+# :sparkles: stylishc :sparkles:
 
 Create stylish contributors badges with ease!
 
 ## Available via...
 
-### Command Line
+### :computer: Command Line
 
 #### Install
 
@@ -21,10 +21,10 @@ npm install -g
 stylishc contributors devlife-apps/stylishc
 ```
 
-### Roadmap
+## Roadmap
 
-- [x] [Command line](#command-line)
-- [ ] HTTP service
-- [ ] Hosted instance
+- [x] [Command line](#computer-command-line) - A CLI to run on your computer.
+- [ ] HTTP service - A HTTP service you can host anywhere.
+- [ ] Hosted instance - A hosted instance of the HTTP service.
 - [ ] Google Cloud Run Button - Your own instance on GCP
 - [ ] Deploy to Heroku Button - Your own instance on Heroku
