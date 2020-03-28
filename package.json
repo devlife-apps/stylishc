@@ -4,7 +4,7 @@
   "description": "An image generator for open source contributions.",
   "main": "./lib/index.js",
   "bin": {
-    "contrib-img": "./lib/index.js"
+    "stylishc": "./lib/index.js"
   },
   "scripts": {
     "watch": "tsc -w -p .",

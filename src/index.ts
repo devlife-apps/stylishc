@@ -79,7 +79,7 @@ yarg.command(
         alias: 'o',
         type: 'string',
         description: 'Output file.',
-        defaultDescription: 'output to stdout'
+        default: 'contributors.png'
     })
     .argv
 
