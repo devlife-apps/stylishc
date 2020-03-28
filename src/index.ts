@@ -1,37 +1,43 @@
-const axios = require("axios");
-const sharp = require('sharp');
-const fs = require('fs');
-const { Octokit } = require("@octokit/rest");
+#!/usr/bin/env node
+
+import axios from "axios";
+import sharp from 'sharp';
+import fs from 'fs';
+import yarg from 'yargs';
+import { Octokit } from '@octokit/rest';
 const octokit = new Octokit();
 
-require('yargs')
-    .command('contributors <repo>', 'generate an image',
-        (yargs) => {
-            yargs.positional('repo', {
-                describe: 'OWNER/REPO or URL to the git repository.',
-            })
-        }, (args) => {
-            generate(() => {
-                parts = args.repo.split('/')
-                if (parts.length < 2) {
-                    console.error("unable to parse repo:", parts);
-                    return process.exit(1)
-                }
-
-                let repo = parts[parts.length - 1];
-                let owner = parts[parts.length - 2];
-                console.log(owner);
-                console.log(repo);
-
-                return getContributorsForRepo(owner, repo);
-            }, args);
+yarg.command(
+    'contributors <repo>',
+    'Generate an image of the contributors for given repository.',
+    (yargs) => {
+        yargs.positional('repo', {
+            describe: 'OWNER/REPO or URL to the git repository.',
         })
-    .command('users <username...>', 'generate an image',
+    }, (args: ContributorsArgs) => {
+        generate(() => {
+            const parts = args.repo.split('/')
+            if (parts.length < 2) {
+                console.error("unable to parse repo:", parts);
+                return process.exit(1)
+            }
+
+            let repo = parts[parts.length - 1];
+            let owner = parts[parts.length - 2];
+            console.log("owner =", owner);
+            console.log("repo =", repo);
+
+            return getContributorsForRepo(owner, repo);
+        }, args);
+    })
+    .command(
+        'users <username...>',
+        'Generate an image including only the provided users.',
         (yargs) => {
             yargs.positional('username', {
                 describe: 'Profile username.',
             })
-        }, (args) => {
+        }, (args: UsersArgs) => {
             generate(() => getUsersByUsername(args.username), args);
         })
     .option('avatar-padding', {
@@ -77,11 +83,34 @@ require('yargs')
     })
     .argv
 
-function generate(getUsersFn, args) {
+interface User {
+    login: string;
+    avatar_url: string;
+}
+
+interface Args {
+    avatarPadding: number;
+    avatarRadius: number;
+    avatarSize: number;
+    canvasWidth: number;
+    strokeColor: Array<string>;
+    strokeWidth: number;
+    style: string;
+}
+
+interface ContributorsArgs extends Args {
+    repo: string
+}
+
+interface UsersArgs extends Args {
+    username: Array<string>
+}
+
+function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
     console.log("generating...");
     if (args.style) {
         console.log("loading style from:", args.style);
-        let styleConfig = JSON.parse(fs.readFileSync(args.style));
+        let styleConfig = JSON.parse(fs.readFileSync(args.style).toString());
         console.log("loaded style:\n", styleConfig);
         args = { ...args, ...styleConfig };
     }
@@ -94,12 +123,12 @@ function generate(getUsersFn, args) {
     let strokeWidth = args.strokeWidth;
 
     getUsersFn().then((users) => {
-        var promises = [];
+        var promises: Array<Promise<Buffer>> = [];
         users.forEach((user) => {
             console.log(`downloading avatar ${user.login} from ${user.avatar_url}`)
             promises.push(
                 axios({ url: user.avatar_url, responseType: "arraybuffer" })
-                    .then((response) => response.data)
+                    .then((response: { data: any; }) => response.data)
             )
         })
 
@@ -182,29 +211,30 @@ function sampleData() {
     ];
 }
 
-function getUsersByUsername(usernames) {
-    var promises = [];
+function getUsersByUsername(usernames: Array<string>): Promise<Array<User>> {
+    var promises = new Array();
     usernames.forEach((u) => {
         console.log("looking up:", u);
-        promises.push(octokit.users.getByUsername({ username: u }))
-    })
+        let p = octokit.users.getByUsername({ username: u });
+        promises.push(p);
+    });
 
     return Promise.all(promises)
-        .then((r) => r.map(e => e.data));
+        .then((r) => r.map(e => e));
 
     return Promise.resolve(sampleData());
 }
 
-function getContributorsForRepo(owner, repo) {
+function getContributorsForRepo(owner: string, repo: string): Promise<Array<User>> {
     return octokit.repos.listContributors({
         owner,
         repo
-    }).then((r) => r.data);
+    }).then((e) => e.data);
 
     return Promise.resolve(sampleData());
 }
 
-function composeAvatar(image, size, cornerRadius, strokeColor, strokeWidth) {
+function composeAvatar(image: Buffer, size: number, cornerRadius: number, strokeColor: string, strokeWidth: number) {
     try {
         let rect = Buffer.from(
             `<svg width="${size}" height="${size}">
