@@ -93,6 +93,7 @@ interface Args {
     avatarRadius: number;
     avatarSize: number;
     canvasWidth: number;
+    output: string;
     strokeColor: Array<string>;
     strokeWidth: number;
     style: string;
@@ -185,7 +186,7 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
             })
                 .composite(compositeImages)
                 .png()
-                .toFile('output.png')
+                .toFile(args.output)
         })
         .catch((e) => {
             console.error("ERROR:", e);

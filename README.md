@@ -11,6 +11,7 @@ Create stylish contributors badges with ease!
 ```shell
 git clone <this-repo> stylishc
 cd stylishc
+npm run build
 npm install -g
 ```
 

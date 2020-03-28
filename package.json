@@ -1,5 +1,5 @@
 {
-  "name": "contributors-image-generator",
+  "name": "stylishc",
   "version": "1.0.0",
   "description": "An image generator for open source contributions.",
   "main": "./lib/index.js",
