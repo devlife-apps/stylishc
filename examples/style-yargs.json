@@ -2,9 +2,11 @@
     "avatarPadding": 4,
     "avatarSize": 32,
     "canvasWidth": 900,
-    "avatarRadius": 16,
+    "avatarRadius": 5,
     "strokeColor": [
-        "#26598844"
+        "#f49ac2",
+        "#4f4f85",
+        "#1c2038"
     ],
-    "strokeWidth": 1
+    "strokeWidth": 2
 }
