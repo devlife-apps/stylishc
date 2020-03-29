@@ -58,7 +58,7 @@ yarg.command(
     .option('canvasWidth', {
         type: 'number',
         description: 'Canvas width.',
-        default: 600
+        default: 900
     })
     .option('stroke-color', {
         type: 'array',
@@ -72,7 +72,7 @@ yarg.command(
     })
     .option('limit', {
         type: 'number',
-        description: 'Limit the number of users to display (max 100).',
+        description: 'Limit number of users. (max 100)',
         default: 100
     })
     .option('style', {

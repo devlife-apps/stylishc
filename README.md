@@ -21,6 +21,10 @@ npm install -g
 stylishc contributors devlife-apps/stylishc
 ```
 
+## Contributors
+
+[![contributors](contributors.png)](https://github.com/devlife-apps/stylishc/graphs/contributors)
+
 ## Roadmap
 
 - [x] [Command line](#computer-command-line) - A CLI to run on your computer.
