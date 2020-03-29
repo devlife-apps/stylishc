@@ -187,11 +187,18 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
                     width: canvasWidth,
                     height: canvasHeight,
                     channels: 4,
-                    background: { r: 255, g: 255, b: 255, alpha: 1.0 }
+                    background: { r: 255, g: 255, b: 255, alpha: 0.0 }
                 }
             })
                 .composite(compositeImages)
-                .png()
+                .png({
+                    adaptiveFiltering: true,
+                    compressionLevel: 9,
+                    dither: 1.0,
+                    palette: true,
+                    progressive: false,
+                    quality: 100,
+                })
                 .toFile(args.output)
         })
         .catch((e) => {
@@ -199,23 +206,6 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
             return process.exit(1);
         });
 
-}
-
-function sampleData() {
-    return [
-        {
-            login: "jromero",
-            avatar_url: "https://avatars1.githubusercontent.com/u/475559?v=4",
-        },
-        {
-            login: "jromero",
-            avatar_url: "https://avatars1.githubusercontent.com/u/475559?v=4",
-        },
-        {
-            login: "jromero",
-            avatar_url: "https://avatars1.githubusercontent.com/u/475559?v=4",
-        }
-    ];
 }
 
 function getUsersByUsername(usernames: Array<string>): Promise<Array<User>> {
@@ -228,8 +218,6 @@ function getUsersByUsername(usernames: Array<string>): Promise<Array<User>> {
 
     return Promise.all(promises)
         .then((r) => r.map(e => e));
-
-    return Promise.resolve(sampleData());
 }
 
 function getContributorsForRepo(owner: string, repo: string, maxUsers: number): Promise<Array<User>> {
@@ -238,8 +226,6 @@ function getContributorsForRepo(owner: string, repo: string, maxUsers: number): 
         repo,
         per_page: maxUsers
     }).then(e => e.data);
-
-    return Promise.resolve(sampleData());
 }
 
 function composeAvatar(image: Buffer, size: number, cornerRadius: number, strokeColor: string, strokeWidth: number) {
@@ -265,11 +251,11 @@ function composeAvatar(image: Buffer, size: number, cornerRadius: number, stroke
         );
 
         return sharp(image)
-            .resize(size, size)
             .composite([
                 { input: rect, blend: 'dest-in' },
                 { input: border, blend: 'over' },
             ])
+            .resize(size, size)
             .png()
             .toBuffer();
     } catch (e) {
