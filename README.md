@@ -9,13 +9,37 @@ Create stylish contributors badges with ease!
 #### Install
 
 ```shell
-git clone <this-repo> stylishc
-cd stylishc
-npm run build
-npm install -g
+npm install -g @devlife-apps/stylishc
 ```
 
-#### Example
+#### Usage
+
+##### Options
+
+```text
+stylishc [command]
+
+Commands:
+  stylishc contributors <repo>  Generate an image of the contributors for given
+                                repository.
+  stylishc users <username...>  Generate an image including only the provided
+                                users.
+
+Options:
+  --help            Show help                                          [boolean]
+  --version         Show version number                                [boolean]
+  --avatar-padding  Avatar padding.                       [number] [default: 10]
+  --avatar-size     Avatar size.                          [number] [default: 50]
+  --avatar-radius   Avatar corner radius.                 [number] [default: 50]
+  --canvasWidth     Canvas width.                        [number] [default: 900]
+  --stroke-color    Stroke color.                    [array] [default: ["#DDD"]]
+  --stroke-width    Stroke width.                          [number] [default: 1]
+  --limit           Limit number of users. (max 100)     [number] [default: 100]
+  --style, -s       Style JSON file. (overrides any provided args)      [string]
+  --output, -o      Output file.          [string] [default: "contributors.png"]
+```
+
+##### Example
 
 ```shell
 stylishc contributors devlife-apps/stylishc
@@ -24,6 +48,10 @@ stylishc contributors devlife-apps/stylishc
 ## Contributors
 
 [![contributors](contributors.png)](https://github.com/devlife-apps/stylishc/graphs/contributors)
+
+## Examples
+
+Check out more stylishc [examples](examples/README.md).
 
 ## Roadmap
 
