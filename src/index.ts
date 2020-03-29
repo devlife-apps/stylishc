@@ -55,7 +55,12 @@ yarg.command(
         description: 'Avatar corner radius.',
         default: 50
     })
-    .option('canvasWidth', {
+    .option('canvas-color', {
+        type: 'string',
+        description: 'Canvas color.',
+        default: '#FFF0'
+    })
+    .option('canvas-width', {
         type: 'number',
         description: 'Canvas width.',
         default: 900
@@ -63,12 +68,12 @@ yarg.command(
     .option('stroke-color', {
         type: 'array',
         description: 'Stroke color.',
-        default: ['#DDD']
+        default: ['#CCC']
     })
     .option('stroke-width', {
         type: 'number',
         description: 'Stroke width.',
-        default: 1
+        default: 2
     })
     .option('limit', {
         type: 'number',
@@ -97,6 +102,7 @@ interface Args {
     avatarPadding: number;
     avatarRadius: number;
     avatarSize: number;
+    canvasColor: string;
     canvasWidth: number;
     limit: number;
     output: string;
@@ -122,13 +128,6 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
         args = { ...args, ...styleConfig };
     }
 
-    let avatarPadding = args.avatarPadding;
-    let avatarRadius = args.avatarRadius;
-    let avatarSize = args.avatarSize;
-    let canvasWidth = args.canvasWidth;
-    let strokeColors = args.strokeColor;
-    let strokeWidth = args.strokeWidth;
-
     getUsersFn().then((users) => {
         var promises: Array<Promise<Buffer>> = [];
         users.forEach((user) => {
@@ -142,8 +141,10 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
         return Promise.all(promises);
     })
         .then(async (images) => {
+            let avatarPadding = args.avatarPadding;
+            let avatarSize = args.avatarSize;
             let totalImages = images.length
-            let imagesPerRow = Math.floor(canvasWidth / (avatarSize + avatarPadding));
+            let imagesPerRow = Math.floor(args.canvasWidth / (avatarSize + avatarPadding));
             let totalRows = Math.ceil(totalImages / imagesPerRow);
             let canvasHeight = Math.ceil(totalRows * (avatarSize + avatarPadding));
 
@@ -154,11 +155,7 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
             console.log("totalRows =", totalRows);
             console.log("imagesPerRow =", imagesPerRow);
 
-            console.log("canvasWidth =", canvasWidth);
             console.log("canvasHeight =", canvasHeight);
-
-            console.log("strokeColors =", strokeColors);
-            console.log("strokeWidth =", strokeWidth);
 
             var compositeImages = [];
             var i = 0;
@@ -168,9 +165,9 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
                     let buffer = await composeAvatar(
                         image,
                         avatarSize,
-                        avatarRadius,
-                        strokeColors[i % strokeColors.length],
-                        strokeWidth
+                        args.avatarRadius,
+                        args.strokeColor[i % args.strokeColor.length],
+                        args.strokeWidth
                     ).catch((e) => Promise.reject(`failed to generate image #${i}: ${JSON.stringify(e)}`))
 
                     compositeImages.push({
@@ -184,10 +181,10 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
 
             return sharp({
                 create: {
-                    width: canvasWidth,
+                    width: args.canvasWidth,
                     height: canvasHeight,
                     channels: 4,
-                    background: { r: 255, g: 255, b: 255, alpha: 0.0 }
+                    background: args.canvasColor
                 }
             })
                 .composite(compositeImages)
