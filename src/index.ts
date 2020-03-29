@@ -27,7 +27,7 @@ yarg.command(
             console.log("owner =", owner);
             console.log("repo =", repo);
 
-            return getContributorsForRepo(owner, repo);
+            return getContributorsForRepo(owner, repo, args.limit);
         }, args);
     })
     .command(
@@ -70,6 +70,11 @@ yarg.command(
         description: 'Stroke width.',
         default: 1
     })
+    .option('limit', {
+        type: 'number',
+        description: 'Limit the number of users to display (max 100).',
+        default: 100
+    })
     .option('style', {
         alias: 's',
         type: 'string',
@@ -93,6 +98,7 @@ interface Args {
     avatarRadius: number;
     avatarSize: number;
     canvasWidth: number;
+    limit: number;
     output: string;
     strokeColor: Array<string>;
     strokeWidth: number;
@@ -169,8 +175,8 @@ function generate(getUsersFn: () => Promise<Array<User>>, args: Args) {
 
                     compositeImages.push({
                         input: buffer,
-                        top: ((row - 1) * (avatarSize + avatarPadding)) + avatarPadding / 2,
-                        left: ((col - 1) * (avatarSize + avatarPadding)) + avatarPadding / 2
+                        top: Math.ceil(((row - 1) * (avatarSize + avatarPadding)) + avatarPadding / 2),
+                        left: Math.ceil(((col - 1) * (avatarSize + avatarPadding)) + avatarPadding / 2)
                     })
                     i++;
                 }
@@ -226,11 +232,12 @@ function getUsersByUsername(usernames: Array<string>): Promise<Array<User>> {
     return Promise.resolve(sampleData());
 }
 
-function getContributorsForRepo(owner: string, repo: string): Promise<Array<User>> {
+function getContributorsForRepo(owner: string, repo: string, maxUsers: number): Promise<Array<User>> {
     return octokit.repos.listContributors({
         owner,
-        repo
-    }).then((e) => e.data);
+        repo,
+        per_page: maxUsers
+    }).then(e => e.data);
 
     return Promise.resolve(sampleData());
 }
