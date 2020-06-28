@@ -103,9 +103,41 @@ export function generate(getUsersFn: () => Promise<Array<User>>, args: Style): P
                 })
         })
         .catch((e) => {
-            console.error("ERROR:", e);
-            return process.exit(1);
+            return Promise.reject(e);
         });
 }
 
-export declare function composeAvatar(image: Buffer, size: number, cornerRadius: number, strokeColor: string, strokeWidth: number): Promise<Buffer>;
+export function composeAvatar(image: Buffer, size: number, cornerRadius: number, strokeColor: string, strokeWidth: number): Promise<Buffer> {
+    try {
+        let rect = Buffer.from(
+            `<svg width="${size}" height="${size}">
+                <rect x="${strokeWidth / 2}" y="${strokeWidth / 2}" 
+                    width="${size - strokeWidth}" height="${size - strokeWidth}" 
+                    rx="${cornerRadius}" ry="${cornerRadius}" 
+                    fill="#f00" 
+                    stroke="#f00" stroke-width="${strokeWidth}" />
+            </svg>`
+        );
+
+        let border = Buffer.from(
+            `<svg width="${size}" height="${size}">
+                <rect x="${strokeWidth / 2}" y="${strokeWidth / 2}" 
+                    width="${size - strokeWidth}" height="${size - strokeWidth}" 
+                    rx="${cornerRadius}" ry="${cornerRadius}" 
+                    fill="transparent" 
+                    stroke="${strokeColor}" stroke-width="${strokeWidth}" />
+            </svg>`
+        );
+
+        return sharp(image)
+            .composite([
+                { input: rect, blend: 'dest-in' },
+                { input: border, blend: 'over' },
+            ])
+            .resize(size, size)
+            .png()
+            .toBuffer();
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}

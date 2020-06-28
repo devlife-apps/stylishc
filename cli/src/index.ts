@@ -31,7 +31,12 @@ yarg.command(
             console.log("repo =", repo);
 
             return gh.getContributorsForRepo(owner, repo, args.limit);
-        }, applyStyle(args));
+        }, applyStyle(args))
+        .then(f => f.toFile(args.output))
+        .catch(e => {
+            console.error(e);
+            process.exit(1);
+        });
     })
     .command(
         'users <username...>',
@@ -41,7 +46,12 @@ yarg.command(
                 describe: 'Profile username.',
             })
         }, (args: UsersArgs) => {
-            generate(() => gh.getUsersByUsername(args.username), applyStyle(args));
+            generate(() => gh.getUsersByUsername(args.username), applyStyle(args))
+            .then(f => f.toFile(args.output))
+            .catch(e => {
+                console.error(e);
+                process.exit(1);
+            });
         })
     .option('avatar-padding', {
         type: 'number',
