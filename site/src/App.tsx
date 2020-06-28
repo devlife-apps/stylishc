@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 
 import { Button, Typography, Grid, CssBaseline, makeStyles, TextField, Slider, ButtonGroup } from '@material-ui/core';
 import Profile from './preview';
-import { defaultStyle } from '@devlife-apps/stylishc/';
+import * as styles from '@devlife-apps/stylishc/lib/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,13 +47,13 @@ function App() {
         <Profile 
           owner="buildpacks" 
           repo="pack"
-          avatarPadding={defaultStyle.avatarPadding}
-          avatarRadius={defaultStyle.avatarRadius}
-          avatarSize={defaultStyle.avatarSize}
-          canvasColor={defaultStyle.canvasColor}
-          canvasWidth={defaultStyle.canvasWidth}
-          strokeColor={defaultStyle.strokeColor}
-          strokeWidth={defaultStyle.strokeWidth}
+          avatarPadding={styles.defaultStyle.avatarPadding}
+          avatarRadius={styles.defaultStyle.avatarRadius}
+          avatarSize={styles.defaultStyle.avatarSize}
+          canvasColor={styles.defaultStyle.canvasColor}
+          canvasWidth={styles.defaultStyle.canvasWidth}
+          strokeColor={styles.defaultStyle.strokeColor}
+          strokeWidth={styles.defaultStyle.strokeWidth}
           />
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

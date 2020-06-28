@@ -1,6 +1,6 @@
 
 import { Octokit } from '@octokit/rest';
-import { User } from '.';
+import { User } from './types';
 
 export class GitHubSource {
     octokit: Octokit;

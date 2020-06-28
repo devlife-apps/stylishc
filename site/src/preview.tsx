@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
-import { Style, User } from '@devlife-apps/stylishc';
-import { GitHubSource } from '@devlife-apps/stylishc/lib/github';
+import { types } from '@devlife-apps/stylishc';
+import * as github from '@devlife-apps/stylishc/lib/github';
 
-const gh = new GitHubSource();
+const gh = new github.GitHubSource();
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
     state: ProfileState = {
-        users: [],
+        users: [{
+            login: "jromero",
+            avatar_url: ""
+        }],
     };
 
     updatePreview = () => {
@@ -31,11 +34,11 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
     }
 }
 
-interface ProfileProps extends Style {
+interface ProfileProps extends types.Style {
     owner: string,
     repo: string,
 }
 
 interface ProfileState {
-    users: Array<User>
+    users: Array<types.User>
 }

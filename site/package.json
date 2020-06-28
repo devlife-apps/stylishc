@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devlife-apps/stylishc": "file:../core",
     "@material-ui/core": "^4.9.10",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -14,8 +15,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "^3.7.5",
-    "@devlife-apps/stylishc": "file:../core"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
