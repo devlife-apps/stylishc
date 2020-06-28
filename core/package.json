@@ -3,13 +3,13 @@
   "version": "0.0.3",
   "description": "Create stylish contributors badges with ease!",
   "main": "./lib/index.js",
-  "bin": {
-    "stylishc": "lib/index.js"
-  },
   "scripts": {
     "watch": "tsc -w -p .",
     "build": "tsc -p .",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+  },
+  "exports": {
+    ".": "./src/"
   },
   "author": "Javier Romero <root@jromero.codes>",
   "license": "Apache-2.0",

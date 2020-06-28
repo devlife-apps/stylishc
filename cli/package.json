@@ -1,0 +1,45 @@
+{
+  "name": "@devlife-apps/stylishc-cli",
+  "version": "0.0.3",
+  "description": "Create stylish contributors badges with ease!",
+  "main": "./lib/index.js",
+  "bin": {
+    "stylishc": "./lib/index.js"
+  },
+  "scripts": {
+    "watch": "tsc -w -p .",
+    "build": "tsc -p .",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+  },
+  "author": "Javier Romero <root@jromero.codes>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@devlife-apps/stylishc": "file:../core",
+    "@octokit/rest": "^16.43.1",
+    "axios": "^0.19.2",
+    "sharp": "^0.25.2",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.5",
+    "@types/sharp": "^0.24.0",
+    "@types/yargs": "^15.0.4",
+    "typescript": "^3.8.3"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devlife-apps/stylishc.git"
+  },
+  "keywords": [
+    "github",
+    "image-generator"
+  ],
+  "bugs": {
+    "url": "https://github.com/devlife-apps/stylishc/issues"
+  },
+  "homepage": "https://github.com/devlife-apps/stylishc#readme"
+}

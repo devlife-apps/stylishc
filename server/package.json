@@ -1,0 +1,24 @@
+{
+  "name": "@devlife-apps/stylishc-server",
+  "version": "0.0.3",
+  "description": "Create stylish contributors badges with ease!",
+  "main": "./lib/index.js",
+  "bin": {
+    "stylishc-server": "./lib/server/index.js"
+  },
+  "scripts": {
+    "watch": "tsc -w -p .",
+    "build": "tsc -p .",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+  },
+  "author": "Javier Romero <root@jromero.codes>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "../core": "0.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^13.9.5"
+  }
+}

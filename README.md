@@ -9,7 +9,7 @@ Create stylish contributors badges with ease!
 #### Install
 
 ```shell
-npm install -g @devlife-apps/stylishc
+npm install -g @devlife-apps/stylishc-cli
 ```
 
 #### Usage
@@ -44,6 +44,12 @@ Options:
 
 ```shell
 stylishc contributors devlife-apps/stylishc
+```
+
+### Web
+
+```text
+
 ```
 
 ## Contributors
