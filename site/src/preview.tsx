@@ -1,35 +1,29 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import { types } from '@devlife-apps/stylishc';
-import * as github from '@devlife-apps/stylishc/lib/github';
-
-const gh = new github.GitHubSource();
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
-    state: ProfileState = {
-        users: [{
-            login: "jromero",
-            avatar_url: ""
-        }],
-    };
+
+    componentDidMount() {
+        this.updatePreview();
+    }
 
     updatePreview = () => {
         let that = this;
-        gh.getContributorsForRepo(this.props.owner, this.props.repo, 100).then((users) => {
-            that.setState({
-                users: users   
+        axios({ url: `http://localhost:8080/contributors/${this.props.owner}/${this.props.repo}`, responseType: "arraybuffer" })
+            .then((response: { data: any; }) => {
+                this.setState({
+                    image: Buffer.from(response.data, 'binary')
+                })
             })
-        })
     }
 
     render() {
-        let userListItems = this.state.users.map(u => <li>{u.login}</li>);
+        if (this.state?.image == null) {
+            return <p></p>;
+        }
         return (
-            <div>
-                <ul>
-                {userListItems}
-                </ul>
-            </div>
+            <img src={`data:image/png;base64, ${this.state.image.toString('base64')}`} />
         )
     }
 }
@@ -40,5 +34,5 @@ interface ProfileProps extends types.Style {
 }
 
 interface ProfileState {
-    users: Array<types.User>
+    image: Buffer
 }

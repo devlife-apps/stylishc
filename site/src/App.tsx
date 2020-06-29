@@ -45,8 +45,8 @@ function App() {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7}>
         <Profile 
-          owner="buildpacks" 
-          repo="pack"
+          owner="devlife-apps" 
+          repo="stylishc"
           avatarPadding={styles.defaultStyle.avatarPadding}
           avatarRadius={styles.defaultStyle.avatarRadius}
           avatarSize={styles.defaultStyle.avatarSize}
