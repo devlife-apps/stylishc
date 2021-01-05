@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@octokit/rest": "^16.43.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "sharp": "^0.25.2",
     "yargs": "^15.3.1"
   },
