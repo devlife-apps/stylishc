@@ -14,9 +14,9 @@
   "author": "Javier Romero <root@jromero.codes>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@octokit/rest": "^16.43.1",
+    "@octokit/rest": "^19.0.13",
     "axios": "^0.21.2",
-    "sharp": "^0.25.2",
+    "sharp": "^0.32.1",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
